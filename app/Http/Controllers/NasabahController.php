@@ -133,13 +133,21 @@ class NasabahController extends Controller
         $transaksi->setPresenter(DetailTransaksiNasabahPresenter::class);
         $transaksi->pushCriteria(OrderByTanggalCriteria::class);
         $transaksi = $transaksi->findWhere(['nasabah_id'=>$nasabah['data']['id']]);
+
         if (request()->wantsJson()) {
+
+            $t['data'] = [
+                'tanggal' => '',
+                'jumlah' => '',
+                'saldo' => 0,
+                'jenis_transaksi' => ''
+            ];
 
             return response()->json([
                 'nasabah' => $nasabah,
-                'transaksi' => $transaksi,
-                'saldo_akhir' => $transaksi['data'][0]['saldo']//saldo terakhir
-            ]);
+                'transaksi' => (!empty($transaksi)) ? $transaksi : $t,
+                'saldo_akhir' => (!empty($transaksi['data'])) ? $transaksi['data'][0]['saldo'] : 0,//saldo terakhir
+            ], 200);
         }
 
         return view('nasabahs.lihatdetail', compact('nasabah'));

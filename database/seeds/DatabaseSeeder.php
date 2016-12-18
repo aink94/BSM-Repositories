@@ -16,8 +16,9 @@ class DatabaseSeeder extends Seeder
         $this->call(KoperasiSeeder::class);
         $this->call(PegawaiSeeder::class);
 
-        factory(Nasabah::class, 300)->create();
-        //factory(\App\Model\Transaksi::class, 300)->create();
+        $this->call(NasabahSeeder::class);
+        factory(Nasabah::class, 298)->create();
+        factory(\App\Model\Transaksi::class, 300)->create();
 
     }
 }
